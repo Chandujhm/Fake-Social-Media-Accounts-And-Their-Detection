@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Profile Insights - Fake Social Media Accounts & Their Detection{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>🧑‍💻 Profile Insights</h2>
+    <p style="text-align: center; margin-bottom: 1rem; color: #666;">
+        Welcome, <strong>{{ username }}</strong>! Here are your latest detection results and insights.
+    </p>
+    {% if latest_detection %}
+    <div class="latest-detection" style="background: #f8f9fa; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.06);">
+        <h3 style="margin-top:0;">🕵️‍♂️ Latest Detection</h3>
+        <p style="font-size:1.1rem; margin-bottom:0.5rem;">
+            <strong>Result:</strong> <span class="detection-{{ latest_detection.status }}">{{ latest_detection.result }}</span>
+        </p>
+        <p style="margin-bottom:0.5rem;"><strong>Confidence:</strong> {{ latest_detection.confidence }}%</p>
+        <p style="margin-bottom:0.5rem;"><strong>Profile:</strong> {{ latest_detection.username }} ({{ latest_detection.fullname }})</p>
+        <p style="margin-bottom:0.5rem;"><strong>Time:</strong> {{ latest_detection.time }}</p>
+        <p style="margin-bottom:0;"><strong>Brief Analysis:</strong> {{ latest_detection.brief }}</p>
+    </div>
+    <style>
+    .detection-danger { color: #dc3545; font-weight: bold; }
+    .detection-success { color: #28a745; font-weight: bold; }
+    </style>
+    {% else %}
+    <p>No detection has been performed yet.</p>
+    {% endif %}
+    <div class="dashboard-nav">
+        <a href="/detection" class="btn btn-primary">🔍 Analyze Profile</a>
+        <a href="/" class="btn btn-secondary">🏠 Back to Home</a>
+    </div>
+</div>
+{% endblock %}

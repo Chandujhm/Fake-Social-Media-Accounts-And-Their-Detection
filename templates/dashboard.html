@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Fake Social Media Accounts & Their Detection{% endblock %}
+
+{% block content %}
+    {% if latest_detection %}
+    <div class="latest-detection" style="background: #f8f9fa; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.06);">
+        <h3 style="margin-top:0;">🕵️‍♂️ Latest Detection</h3>
+        <p style="font-size:1.1rem; margin-bottom:0.5rem;">
+            <strong>Result:</strong> <span style="color: {% if latest_detection.status == 'danger' %}#dc3545{% else %}#28a745{% endif %}; font-weight:bold;">{{ latest_detection.result }}</span>
+        </p>
+        <p style="margin-bottom:0.5rem;"><strong>Confidence:</strong> {{ latest_detection.confidence }}%</p>
+        <p style="margin-bottom:0.5rem;"><strong>Profile:</strong> {{ latest_detection.username }} ({{ latest_detection.fullname }})</p>
+        <p style="margin-bottom:0.5rem;"><strong>Time:</strong> {{ latest_detection.time }}</p>
+        <p style="margin-bottom:0;"><strong>Brief Analysis:</strong> {{ latest_detection.brief }}</p>
+    </div>
+    {% endif %}
+<div class="container">
+    <h2>📊 Analytics Dashboard</h2>
+    <p style="text-align: center; margin-bottom: 1rem; color: #666;">
+        Welcome back, <strong>{{ username }}</strong>! Here are your comprehensive insights and statistics.
+    </p>
+    {% if analytics.last_updated %}
+    <p style="text-align: center; margin-bottom: 2rem; color: #888; font-size: 0.9rem;">
+        🕒 Last updated: {{ analytics.last_updated }}
+    </p>
+    {% endif %}
+
+    <!-- Overview Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+                <h3>{{ analytics.total_profiles or 'N/A' }}</h3>
+                <p>Total Profiles Analyzed</p>
+            </div>
+        </div>
+        
+        <div class="stat-card danger">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-info">
+                <h3>{{ analytics.fake_profiles or 'N/A' }}</h3>
+                <p>Fake Profiles Detected</p>
+            </div>
+        </div>
+        
+        <div class="stat-card success">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+                <h3>{{ analytics.real_profiles or 'N/A' }}</h3>
+                <p>Genuine Profiles</p>
+            </div>
+        </div>
+        
+        <div class="stat-card info">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-info">
+                <h3>{{ analytics.fake_percentage or 'N/A' }}%</h3>
+                <p>Fake Profile Rate</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+        <div class="chart-container">
+            <h3>📈 Profile Distribution</h3>
+            <div class="pie-chart">
+                <canvas id="profileDistChart" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>📊 Average Posts Comparison</h3>
+            <div class="bar-chart">
+                <canvas id="postsChart" width="300" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Analysis -->
+    <div class="feature-analysis">
+        <h3>🔍 Feature Analysis</h3>
+        
+        <div class="analysis-grid">
+            <div class="analysis-card">
+                <h4>📸 Profile Pictures</h4>
+                <div class="comparison">
+                    <div class="comp-item">
+                        <span class="label">Fake Profiles with Picture:</span>
+                        <span class="value fake">{{ analytics.fake_with_pic_percent or 'N/A' }}%</span>
+                    </div>
+                    <div class="comp-item">
+                        <span class="label">Real Profiles with Picture:</span>
+                        <span class="value real">{{ analytics.real_with_pic_percent or 'N/A' }}%</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ analytics.fake_with_pic_percent or 0 }}%"></div>
+                </div>
+            </div>
+
+            <div class="analysis-card">
+                <h4>🔒 Private Accounts</h4>
+                <div class="comparison">
+                    <div class="comp-item">
+                        <span class="label">Fake Private Accounts:</span>
+                        <span class="value fake">{{ analytics.fake_private_percent or 'N/A' }}%</span>
+                    </div>
+                    <div class="comp-item">
+                        <span class="label">Real Private Accounts:</span>
+                        <span class="value real">{{ analytics.real_private_percent or 'N/A' }}%</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ analytics.fake_private_percent or 0 }}%"></div>
+                </div>
+            </div>
+
+            <div class="analysis-card">
+                <h4>👥 Average Followers</h4>
+                <div class="comparison">
+                    <div class="comp-item">
+                        <span class="label">Fake Profiles:</span>
+                        <span class="value fake">{{ analytics.avg_followers_fake or 'N/A' }}</span>
+                    </div>
+                    <div class="comp-item">
+                        <span class="label">Real Profiles:</span>
+                        <span class="value real">{{ analytics.avg_followers_real or 'N/A' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-card">
+                <h4>📝 Average Posts</h4>
+                <div class="comparison">
+                    <div class="comp-item">
+                        <span class="label">Fake Profiles:</span>
+                        <span class="value fake">{{ analytics.avg_posts_fake or 'N/A' }}</span>
+                    </div>
+                    <div class="comp-item">
+                        <span class="label">Real Profiles:</span>
+                        <span class="value real">{{ analytics.avg_posts_real or 'N/A' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Insights -->
+    <div class="insights-section">
+        <h3>💡 Key Insights</h3>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <div class="insight-icon">🤖</div>
+                <h4>AI Model Performance</h4>
+                <p>Our machine learning model analyzes 11 key features to detect fake profiles with high accuracy.</p>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-icon">⚡</div>
+                <h4>Real-time Detection</h4>
+                <p>Instant profile analysis with confidence scoring helps identify suspicious accounts quickly.</p>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-icon">📈</div>
+                <h4>Pattern Recognition</h4>
+                <p>Advanced algorithms identify behavioral patterns that distinguish fake from genuine profiles.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="dashboard-nav">
+        <a href="/detection" class="btn btn-primary">� Analyze Profile</a>
+        <a href="/" class="btn btn-secondary">🏠 Back to Home</a>
+    </div>
+</div>
+
+<style>
+/* Dashboard specific container override */
+.container {
+    max-width: 95% !important;
+    width: 95% !important;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+/* Override main content for dashboard */
+.main-content {
+    padding: 1rem !important;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    border-left: 4px solid #007bff;
+}
+
+.stat-card.danger {
+    border-left-color: #dc3545;
+}
+
+.stat-card.success {
+    border-left-color: #28a745;
+}
+
+.stat-card.info {
+    border-left-color: #17a2b8;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-right: 1rem;
+}
+
+.stat-info h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.stat-info p {
+    margin: 0.5rem 0 0 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 3rem;
+    margin: 3rem 0;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 400px;
+}
+
+.chart-container h3 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.feature-analysis {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.analysis-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 2rem;
+    border: 1px solid #e9ecef;
+}
+
+.analysis-card h4 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.comparison {
+    margin-bottom: 1rem;
+}
+
+.comp-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.value.fake {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.value.real {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #dc3545, #ffc107);
+    transition: width 0.3s ease;
+}
+
+.insights-section {
+    margin: 3rem 0;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.insight-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.insight-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.insight-card h4 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.insight-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.dashboard-nav {
+    text-align: center;
+    margin: 3rem 0;
+}
+
+.dashboard-nav .btn {
+    margin: 0 0.5rem;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Profile Distribution Pie Chart
+const ctx1 = document.getElementById('profileDistChart').getContext('2d');
+new Chart(ctx1, {
+    type: 'pie',
+    data: {
+        labels: ['Fake Profiles', 'Real Profiles'],
+        datasets: [{
+            data: [{{ analytics.fake_profiles or 0 }}, {{ analytics.real_profiles or 0 }}],
+            backgroundColor: ['#dc3545', '#28a745'],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 20
+                }
+            }
+        }
+    }
+});
+
+// Posts Comparison Bar Chart
+const ctx2 = document.getElementById('postsChart').getContext('2d');
+new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: ['Fake Profiles', 'Real Profiles'],
+        datasets: [{
+            label: 'Average Posts',
+            data: [{{ analytics.avg_posts_fake or 0 }}, {{ analytics.avg_posts_real or 0 }}],
+            backgroundColor: ['#dc3545', '#28a745'],
+            borderWidth: 1,
+            borderRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Posts'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,420 @@
+{% extends "base.html" %}
+
+{% block title %}SpamGuard AI - Advanced Fake Profile Detection{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-container">
+            <h1>🛡️ Fake Social Media Accounts & Their Detection</h1>
+            <p class="hero-subtitle">Welcome back, {{ username }}!</p>
+            <p class="hero-description">
+                Advanced Machine Learning System for Instagram Fake Profile Detection
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="/detection" class="btn btn-primary btn-large">
+                    🔍 Analyze Profile Now
+                </a>
+                <!-- <a href="/dashboard" class="btn btn-secondary btn-large">
+                    📊 View Analytics
+                </a> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <div class="section-header">
+            <h2>🚀 Powered by Advanced AI Technology</h2>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Deep Learning Model</h3>
+            <p>TensorFlow-powered neural network with 3-layer architecture for high-accuracy fake profile detection.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>11-Factor Analysis</h3>
+            <p>Comprehensive evaluation of profile patterns, username structure, and social behavior metrics.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Instant Results</h3>
+            <p>Get immediate detection results with confidence scores in under 1 second.</p>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+        <div class="section-header">
+            <h2>📈 System Performance</h2>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">{{ stats.total_profiles or '576+' }}</div>
+                <div class="stat-label">Training Profiles</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number">{{ stats.accuracy or '90+' }}%</div>
+                <div class="stat-label">Detection Accuracy</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Analysis Features</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number">< 1s</div>
+                <div class="stat-label">Detection Time</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+        <div class="section-header">
+            <h2>Ready to Detect Fake Profiles?</h2>
+            <p>Start using our AI system to protect your social media experience.</p>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="/detection" class="btn btn-primary btn-large">
+                🚀 Start Detection
+            </a>
+            <a href="/about" class="btn btn-outline btn-large">
+                📖 Learn More
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Main Container */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Hero Section */
+.hero-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 4rem 3rem;
+    text-align: center;
+    animation: slideUp 0.8s ease;
+    width: 100%;
+}
+
+.hero-container h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Section Headers */
+.section-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 3rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 100%;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Features Section */
+.features-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Stats Section */
+.stats-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.stats-container {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 20px;
+    padding: 4rem;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    text-align: center;
+}
+
+.stat-item {
+    padding: 1rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* CTA Section */
+.cta-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-large {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-outline:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 1rem;
+        gap: 1.5rem;
+        max-width: 95%;
+    }
+    
+    .hero-container h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .section-header {
+        padding: 2rem;
+    }
+    
+    .feature-card {
+        padding: 2rem;
+    }
+    
+    .stats-container {
+        padding: 2.5rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-large {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .main-container {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+    
+    .hero-section {
+        padding: 3rem 2.5rem;
+    }
+    
+    .section-header {
+        padding: 2.5rem;
+    }
+    
+    .feature-card {
+        padding: 2.5rem;
+    }
+    
+    .stats-container {
+        padding: 3rem;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Remove any unwanted margins and ensure proper spacing */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+</style>
+{% endblock %}

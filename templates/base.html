@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Spammer Detection & Fake User Identification{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">🛡️ Fake Social Media Accounts & Their Detection</a>
+            <ul class="nav-links">
+                <li><a href="/">🏠 Home</a></li>
+                <li><a href="/detection">🔍 Detection</a></li>
+                <li><a href="/faq">❓ FAQ</a></li>
+                <li><a href="/contact">✉️ Contact</a></li>
+                <li><a href="/about">📖 About</a></li>
+                {% if session.user_id %}
+                <li class="user-info">
+                    <span>👋 {{ session.username or 'User' }}</span>
+                    <a href="/logout" class="logout-btn">🚪 Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🛡️ SpamGuard AI</h3>
+                    <p>Advanced AI-powered fake profile detection system to protect your social media experience.</p>
+                    <!-- <div class="footer-social">
+                        <a href="#" title="GitHub">💻</a>
+                        <a href="#" title="LinkedIn">🔗</a>
+                        <a href="#" title="Twitter">🐦</a>
+                    </div> -->
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li><a href="/detection">Profile Analysis</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/about">About System</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul>
+                        <li>Deep Learning Model</li>
+                        <li>11-Factor Analysis</li>
+                        <li>Real-time Detection</li>
+                        <li>TensorFlow & Flask</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="/contact">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 SpamGuard AI. All rights reserved.</p>
+                    <p>Powered by Advanced Machine Learning | Built with ❤️ for Digital Safety</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for enhanced interactions -->
+    <script>
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add loading states to forms
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<span class="loading"></span> Processing...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+
+        // Animate numbers on page load
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.stat-number');
+            numbers.forEach(number => {
+                const target = parseInt(number.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    number.textContent = Math.floor(current).toLocaleString();
+                }, 30);
+            });
+        }
+
+        // Run animations when page loads
+        window.addEventListener('load', animateNumbers);
+    </script>
+</body>
+</html>
